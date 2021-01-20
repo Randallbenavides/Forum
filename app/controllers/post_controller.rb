@@ -1,20 +1,34 @@
 class PostController < ApplicationController
 
-  def index
-    @post = Post.new
-  end
+ def index
+   @post = Post.all
+ end
 
-  def new
-    @post = Post.new
-  end
+ def show
+   @post = Post.find(params[:id])
+ end
 
-  def create
-    @post = Post.new(post_params)
-  end
+ def new
+   @post = Post.new
+ end
 
-  private
+ def create
+  @post = Post.new(post_params)
+ end
 
-  def post_params
-    params.require(:post).permit(:title, :content)
-  end
+ private
+
+ def post_params
+  params.require(:post).permit(:title, :content)
+ end
+
+ def create
+  @post = Post.new(post_params)
+    if @post.save
+      redirect_to @post
+    else
+      render 'new'
+    end
+ end
+
 end
